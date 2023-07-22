@@ -1,0 +1,9 @@
+.quote-source {
+    text-align: right;
+    padding-right: 10px;
+}
+
+.quote {
+    font-size: 2vw;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
