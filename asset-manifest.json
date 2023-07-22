@@ -1,15 +1,16 @@
 {
   "files": {
-    "main.css": "/react-dashboard/static/css/main.a0482955.css",
-    "main.js": "/react-dashboard/static/js/main.121e615f.js",
+    "main.css": "/react-dashboard/static/css/main.c99a4364.css",
+    "main.js": "/react-dashboard/static/js/main.3b5eb4ad.js",
     "static/js/787.4c5b6ef8.chunk.js": "/react-dashboard/static/js/787.4c5b6ef8.chunk.js",
+    "static/media/Turrent.png": "/react-dashboard/static/media/Turrent.a9af4545cf0ce9b4ec6b.png",
     "index.html": "/react-dashboard/index.html",
-    "main.a0482955.css.map": "/react-dashboard/static/css/main.a0482955.css.map",
-    "main.121e615f.js.map": "/react-dashboard/static/js/main.121e615f.js.map",
+    "main.c99a4364.css.map": "/react-dashboard/static/css/main.c99a4364.css.map",
+    "main.3b5eb4ad.js.map": "/react-dashboard/static/js/main.3b5eb4ad.js.map",
     "787.4c5b6ef8.chunk.js.map": "/react-dashboard/static/js/787.4c5b6ef8.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.a0482955.css",
-    "static/js/main.121e615f.js"
+    "static/css/main.c99a4364.css",
+    "static/js/main.3b5eb4ad.js"
   ]
 }
