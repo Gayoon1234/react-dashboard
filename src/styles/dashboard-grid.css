@@ -1,0 +1,42 @@
+html, body, #root {
+    margin: 0;
+    padding: 0;
+    height: 100%; /* Set height to 100% */
+    background-color: black;
+    color: #00ff00;
+  }
+
+.container {  display: grid;
+    grid-template-columns: .75fr 1fr 1fr 0.75fr;
+    grid-template-rows: 1fr 0.2fr 1fr;
+    gap: 3px 3px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      "ImageBox ClockBox ClockBox WeatherBox"
+      "ImageBox QuoteBox QuoteBox QuoteBox"
+      "ImageBox TBDBox MusicBox TaskBox";
+    height: 100%;
+  }
+  
+  .ImageBox { grid-area: ImageBox; }
+  
+  .ClockBox { grid-area: ClockBox; }
+  
+  .QuoteBox { grid-area: QuoteBox; }
+  
+  .WeatherBox { grid-area: WeatherBox; }
+  
+  .TaskBox { grid-area: TaskBox; }
+  
+  .MusicBox { grid-area: MusicBox; }
+  
+  .TBDBox { grid-area: TBDBox; }
+  
+
+  /* CSS */
+div.Box {
+    border: 2px solid #00ff00; /* Bright green border color */
+    border-radius: 8px; /* Rounded corners */
+    padding-left: 6px;
+  }
+  
