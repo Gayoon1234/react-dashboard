@@ -18,7 +18,11 @@
     overflow: hidden; /* Prevent the image from overflowing when resized */
   }
   
-  .ClockBox { grid-area: ClockBox; }
+  .ClockBox { 
+    grid-area: ClockBox;
+    padding-left: 0px !important;
+    text-align: center;
+  }
   
   .QuoteBox { grid-area: QuoteBox; }
   

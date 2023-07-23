@@ -1,56 +1,99 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from "react";
 
 const Clock = (props) => {
   const canvasRef = useRef(null);
 
   const draw = (ctx, time) => {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clear canvas before drawing
-
-    // Draw clock elements here (e.g., clock hands, numbers, etc.)
-    const centerX = ctx.canvas.width / 2;
-    const centerY = ctx.canvas.height / 2;
-    const radius = Math.min(centerX, centerY) * 0.8; // Adjust the radius as needed
-
-    // Draw clock background
-    ctx.fillStyle = '#FFFFFF';
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-    ctx.stroke();
-
     // Draw clock hands
-    const date = new Date(time);
+    const date = new Date(Date.now());
     const hours = date.getHours() % 12;
     const minutes = date.getMinutes();
     const seconds = date.getSeconds();
 
-    const hourAngle = ((hours + minutes / 60) / 12) * 2 * Math.PI;
-    const minuteAngle = (minutes / 60) * 2 * Math.PI;
-    const secondAngle = (seconds / 60) * 2 * Math.PI;
+    // 6 rows, 24 columns
 
-    // Draw hour hand
-    drawHand(ctx, centerX, centerY, hourAngle, radius * 0.5, 5, '#00ff00');
+    // one 7 seg:
+    const rows = 6;
+    const cols = 24;
+    const w = ctx.canvas.width / cols;
+    const h = ctx.canvas.height / rows;
 
-    // Draw minute hand
-    drawHand(ctx, centerX, centerY, minuteAngle, radius * 0.7, 3, '#00ff00');
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = "#00ff00";
+    ctx.fillStyle = "#00ff00";
 
-    // Draw second hand
-    drawHand(ctx, centerX, centerY, secondAngle, radius * 0.9, 1, '#00ff00');
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        const x = col * w;
+        const y = row * h;
+        // ctx.strokeRect(x, y, w, h);
+        drawHorizontalSegment(ctx, x, y, h, w);
+        drawHorizontalSegment(ctx, x, 0.4 * h + y, h, w);
+        drawHorizontalSegment(ctx, x, 0.8 * h + y, h, w);
+
+        drawVerticalSegment(ctx, x, y, h, w);
+        drawVerticalSegment(ctx, x + 0.1 * h + 0.43 * w, y, h, w);
+
+        drawVerticalSegment(ctx, x, 0.4 * h + y, h, w);
+        drawVerticalSegment(ctx, x + 0.1 * h + 0.43 * w, 0.4 * h + y, h, w);
+      }
+    }
   };
 
-  const drawHand = (ctx, x, y, angle, length, width, color) => {
-    ctx.strokeStyle = color;
-    ctx.lineWidth = width;
-    ctx.lineCap = 'round';
+  //can put const here...
+  const drawHorizontalSegment = (ctx, x, y, h, w) => {
+    ctx.fillRect(x + 0.3 * w, y + 0.05 * h, 0.4 * w, 0.1 * h);
+
+    //left triangle
     ctx.beginPath();
-    ctx.moveTo(x, y);
-    ctx.lineTo(x + length * Math.cos(angle), y + length * Math.sin(angle));
-    ctx.stroke();
+    ctx.moveTo(x + 0.31 * w, y + 0.05 * h);
+    ctx.lineTo(x + 0.24 * w, y + 0.1 * h);
+    ctx.lineTo(x + 0.31 * w, y + 0.15 * h);
+    ctx.closePath();
+    ctx.fill();
+
+    //right triangle
+    ctx.beginPath();
+    ctx.moveTo(x + 0.69 * w, y + 0.05 * h);
+    ctx.lineTo(x + 0.76 * w, y + 0.1 * h);
+    ctx.lineTo(x + 0.69 * w, y + 0.15 * h);
+    ctx.closePath();
+    ctx.fill();
   };
 
+  const drawVerticalSegment = (ctx, x, y, h, w) => {
+    ctx.fillRect(
+      x + 0.285 * w - 0.1 * h,
+      y + 0.15 * h + 0.015 * w,
+      0.1 * h,
+      0.4 * w
+    );
+
+    ctx.beginPath();
+    //top
+    ctx.moveTo(x + 0.285 * w - 0.05 * h, y + 0.15 * h - 0.045 * w);
+    //bot right
+    ctx.lineTo(x + 0.285 * w, y + 0.15 * h + 0.015 * w);
+    //bot left
+    ctx.lineTo(x + 0.285 * w - 0.1 * h, y + 0.15 * h + 0.015 * w);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.beginPath();
+    //bot
+    ctx.moveTo(x + 0.285 * w - 0.05 * h, y + 0.15 * h + 0.475 * w);
+    //top right
+    ctx.lineTo(x + 0.285 * w, y + 0.15 * h + 0.415 * w);
+    //top left
+    ctx.lineTo(x + 0.285 * w - 0.1 * h, y + 0.15 * h + 0.415 * w);
+    ctx.closePath();
+    ctx.fill();
+  };
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    const context = canvas.getContext('2d');
+    const context = canvas.getContext("2d");
 
     const animateClock = (time) => {
       draw(context, time);
@@ -60,8 +103,8 @@ const Clock = (props) => {
     animateClock(Date.now());
 
     const resizeCanvas = () => {
-      canvas.width = canvas.parentElement.clientWidth;
-      canvas.height = canvas.parentElement.clientHeight;
+      canvas.width = 0.9 * canvas.parentElement.clientWidth;
+      canvas.height = 0.9 * canvas.parentElement.clientHeight;
 
       // Clear the canvas and redraw the clock after resizing
       draw(context, Date.now());
@@ -69,11 +112,11 @@ const Clock = (props) => {
 
     resizeCanvas();
     // Add event listeners for both initial setup and resizing
-    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener("resize", resizeCanvas);
 
     // Clean up the event listener on component unmount
     return () => {
-      window.removeEventListener('resize', resizeCanvas);
+      window.removeEventListener("resize", resizeCanvas);
     };
   }, []);
 
